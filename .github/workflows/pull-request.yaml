@@ -1,0 +1,35 @@
+name: "Pull Request checks"
+
+on:
+  - pull_request
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: stafftastic/google-artifact-registry-npmrc-action@v1.0.0
+        with:
+          scope: stafftastic
+          project: stafftastic
+          repository: npm
+          serviceAccountKey: ${{secrets.GOOGLE_ARTIFACT_REGISTRY_SA_KEY}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+  cyclic-dependencies:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: stafftastic/google-artifact-registry-npmrc-action@v1.0.0
+        with:
+          scope: stafftastic
+          project: stafftastic
+          repository: npm
+          serviceAccountKey: ${{secrets.GOOGLE_ARTIFACT_REGISTRY_SA_KEY}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npx dpdm --exit-code circular:1 ./src/index.ts

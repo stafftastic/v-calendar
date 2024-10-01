@@ -1,0 +1,26 @@
+name: "Publish package to registry"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: actions/checkout@v3
+    - uses: stafftastic/google-artifact-registry-npmrc-action@v1.0.0
+      with:
+        scope: stafftastic
+        project: stafftastic
+        repository: npm
+        serviceAccountKey: ${{secrets.GOOGLE_ARTIFACT_REGISTRY_SA_KEY}}
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "20"
+        registry-url: "https://europe-west3-npm.pkg.dev/stafftastic/npm/"
+        scope: "@stafftastic"
+    - run: npm version --no-git-tag-version ${GITHUB_REF_NAME#v}
+    - run: npm ci
+    - run: npm run build
+    - run: npm publish

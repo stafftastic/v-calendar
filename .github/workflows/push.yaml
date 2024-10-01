@@ -1,0 +1,26 @@
+name: "Push checks"
+
+on: "push"
+
+jobs:
+  chromatic-deployment:
+    runs-on: "ubuntu-latest-m"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: stafftastic/google-artifact-registry-npmrc-action@v1.0.0
+        with:
+          scope: stafftastic
+          project: stafftastic
+          repository: npm
+          serviceAccountKey: ${{secrets.GOOGLE_ARTIFACT_REGISTRY_SA_KEY}}
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
