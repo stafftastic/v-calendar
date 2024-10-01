@@ -1,5 +1,5 @@
 {
-  "name": "v-calendar",
+  "name": "@stafftastic/v-calendar",
   "type": "module",
   "version": "3.1.2",
   "description": "A calendar and date picker plugin for Vue.js.",
