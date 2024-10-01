@@ -118,25 +118,25 @@ cd v-calendar
 ### Install dependencies
 
 ```sh
-yarn
+npm install
 ```
 
 ### Build library
 
 ```sh
 # Types, ES, ESM, CommonJS, IIFE
-yarn build
+npm run build
 ```
 
 ### Lint and fix files
 
 ```sh
-yarn lint
+npm run lint
 ```
 
 ### Test library
 
 ```sh
 # Types, ES, ESM, CommonJS, IIFE
-yarn test
+npm run test
 ```
