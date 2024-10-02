@@ -1,6 +1,6 @@
 <template>
   <VCalendar :attributes="attributes">
-    <template #day-popover="{ dayTitle, attributes }">
+    <template #day-popover="{ day, format, masks, dayTitle, attributes }">
       <div class="px-1">
         <div v-if="step === 1" class="text-xs text-gray-700 dark:text-gray-300">
           Using my own content now
@@ -29,7 +29,7 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-  action: { type: String, default: 'hover' },
+  visibility: { type: String, default: 'hover' },
   hideIndicators: Boolean,
   step: { type: Number, default: 1 },
 });
@@ -53,7 +53,7 @@ const attributes = computed(() => [
     },
     popover: {
       label: todo.description,
-      action: props.action,
+      visibility: props.visibility,
       hideIndicator: props.hideIndicators,
     },
     customData: todo,

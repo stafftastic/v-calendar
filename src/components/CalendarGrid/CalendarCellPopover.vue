@@ -1,6 +1,6 @@
 <template>
-  <PopoverContent
-    :name="popoverId"
+  <Popover
+    :id="popoverId"
     :class="[`vc-${color}`, `vc-${displayMode}`]"
     @after-hide="onAfterHide"
     ref="popoverRef"
@@ -11,19 +11,19 @@
       v-bind="$attrs"
       @close="hide"
     />
-  </PopoverContent>
+  </Popover>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, toRefs } from 'vue';
-import {
-  type PopoverOptions,
-  PopoverContent,
-  hidePopover,
-  showPopover,
-} from 'v-popover';
 import { useCalendar } from '../../use/calendar';
 import type { Event } from '../../utils/calendar/event';
+import {
+  type PopoverOptions,
+  hidePopover,
+  showPopover,
+} from '../../utils/popovers';
+import Popover from '../Popover/Popover.vue';
 import CalendarEventEdit from './CalendarEventEdit.vue';
 
 interface State {
@@ -32,7 +32,7 @@ interface State {
 
 export default defineComponent({
   name: 'CalendarCellPopover',
-  components: { PopoverContent, CalendarEventEdit },
+  components: { Popover, CalendarEventEdit },
   inheritAttrs: false,
   props: {
     popoverId: { type: String, default: 'vc-grid-popover' },
@@ -47,16 +47,16 @@ export default defineComponent({
     const popoverOptions = computed(
       () =>
         ({
-          name: props.popoverId,
+          id: props.popoverId,
           placement: 'right',
-        }) as Partial<PopoverOptions>,
+        } as Partial<PopoverOptions>),
     );
 
     function show(event: Event) {
       state.event = event;
       showPopover({
         ...popoverOptions.value,
-        anchor: event.refSelector,
+        target: event.refSelector,
       });
     }
 

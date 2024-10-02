@@ -42,13 +42,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import {
-  type PopoverPlacement,
-  type PopoverOptions,
-  directive as vPopover,
-} from 'v-popover';
 import { useCalendar } from '../../use/calendar';
 import { Page } from '../../utils/page';
+import { popoverDirective as vPopover } from '../../utils/popovers';
 import BaseIcon from '../BaseIcon/BaseIcon.vue';
 import CalendarSlot from './CalendarSlot.vue';
 
@@ -63,15 +59,15 @@ const props = defineProps<{
 }>();
 
 const {
-  navPopover,
+  navPopoverId,
+  navVisibility,
   canMovePrev,
   movePrev,
   canMoveNext,
   moveNext,
-  displayMode,
 } = useCalendar();
 
-const navPlacement = computed<PopoverPlacement>(() => {
+const navPlacement = computed(() => {
   switch (props.page.titlePosition) {
     case 'left':
       return 'bottom-start';
@@ -81,18 +77,17 @@ const navPlacement = computed<PopoverPlacement>(() => {
       return 'bottom';
   }
 });
-
-const navPopoverOptions = computed<Partial<PopoverOptions>>(() => {
+const navPopoverOptions = computed(() => {
   const { page } = props;
   return {
-    theme: displayMode.value,
-    ...navPopover.value,
+    id: navPopoverId.value,
+    visibility: navVisibility.value,
     placement: navPlacement.value,
+    modifiers: [{ name: 'flip', options: { fallbackPlacements: ['bottom'] } }],
     data: { page },
-    interactive: true,
+    isInteractive: true,
   };
 });
-
 const titleLeft = computed(() => props.page.titlePosition.includes('left'));
 const titleRight = computed(() => props.page.titlePosition.includes('right'));
 const layout_ = computed(() => {

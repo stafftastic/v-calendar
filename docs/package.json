@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "vitepress dev",
     "build": "NODE_OPTIONS='--experimental-specifier-resolution=node' vitepress build",
@@ -11,6 +10,7 @@
     "serve": "vitepress serve"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "lodash": "^4.17.21",
     "short-uuid": "^4.2.0",
     "vue-screen-utils": "^1.0.0-beta.13"

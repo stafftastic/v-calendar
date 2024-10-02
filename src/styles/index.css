@@ -19,6 +19,10 @@
       outline: none;
     }
   }
+  /* Hides double border within popovers */
+  & .vc-container {
+    border: none;
+  }
 }
 
 .vc-bordered {
@@ -35,6 +39,10 @@
   background-color: transparent;
 }
 
-.__v-popover-content__ .vc-container {
-  border: none;
+.vc-date-picker-content {
+  padding: 0;
+  background-color: var(--vc-bg);
+  .vc-container {
+    border: 0;
+  }
 }

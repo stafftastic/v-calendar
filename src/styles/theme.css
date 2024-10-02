@@ -214,6 +214,15 @@
   --vc-nav-item-active-bg: var(--vc-accent-500);
   --vc-nav-item-active-box-shadow: var(--vc-shadow);
   --vc-nav-item-current-color: var(--vc-accent-600);
+  /* Calendar day popover */
+  --vc-day-popover-container-color: var(--vc-white);
+  --vc-day-popover-container-bg: var(--vc-gray-800);
+  --vc-day-popover-container-border: var(--vc-gray-700);
+  --vc-day-popover-header-color: var(--vc-gray-700);
+  /* Popover content */
+  --vc-popover-content-color: var(--vc-gray-900);
+  --vc-popover-content-bg: var(--vc-gray-50);
+  --vc-popover-content-border: var(--vc-gray-300);
   /* Time picker */
   --vc-time-picker-border: var(--vc-gray-300);
   --vc-time-weekday-color: var(--vc-gray-700);
@@ -270,6 +279,15 @@
   --vc-nav-item-active-bg: var(--vc-accent-500);
   --vc-nav-item-active-box-shadow: none;
   --vc-nav-item-current-color: var(--vc-accent-400);
+  /* Calendar day popover */
+  --vc-day-popover-container-color: var(--vc-gray-800);
+  --vc-day-popover-container-bg: var(--vc-white);
+  --vc-day-popover-container-border: var(--vc-gray-100);
+  --vc-day-popover-header-color: var(--vc-gray-300);
+  /* Popover content */
+  --vc-popover-content-color: var(--vc-white);
+  --vc-popover-content-bg: var(--vc-gray-800);
+  --vc-popover-content-border: var(--vc-gray-700);
   /* Time picker */
   --vc-time-picker-border: var(--vc-gray-700);
   --vc-time-weekday-color: var(--vc-gray-400);
