@@ -1,4 +1,4 @@
-import type { PopoverAction, PopoverOptions } from 'v-popover';
+import type { Placement } from '@popperjs/core';
 import { addDays } from './date/helpers';
 import { DateRange, type DateRangeSource } from './date/range';
 import {
@@ -12,16 +12,18 @@ import {
   HighlightConfig,
   Profile,
 } from './glyph';
-import { arrayHasItems, cleanPopoverOptions } from './helpers';
+import { arrayHasItems } from './helpers';
 import Locale from './locale';
+import type { PopoverVisibility } from './popovers';
 import { Theme } from './theme';
 
-export interface AttributePopoverConfig extends PopoverOptions {
+export type PopoverConfig = Partial<{
   label: string;
-  visibility: PopoverAction;
+  visibility: PopoverVisibility;
+  placement: Placement;
   hideIndicator: boolean;
   isInteractive: boolean;
-}
+}>;
 
 export type EventConfig = Partial<{
   label: string;
@@ -29,11 +31,12 @@ export type EventConfig = Partial<{
 
 export type AttributeConfig = Partial<{
   key: string | number;
+  hashcode: string;
   content: ContentConfig;
   highlight: HighlightConfig;
   dot: DotConfig;
   bar: BarConfig;
-  popover: Partial<AttributePopoverConfig>;
+  popover: PopoverConfig;
   event: EventConfig;
   dates: DateRangeSource[];
   customData: any;
@@ -45,12 +48,13 @@ let attrKey = 0;
 
 export class Attribute {
   key: string | number = '';
+  hashcode = '';
   highlight: Profile<Highlight> | null = null;
   content: Profile<Content> | null = null;
   dot: Profile<Dot> | null = null;
   bar: Profile<Bar> | null = null;
   event: EventConfig | null = null;
-  popover: Partial<AttributePopoverConfig> | null = null;
+  popover: PopoverConfig | null = null;
   customData: any = null;
   ranges: DateRange[];
   hasRanges = false;
@@ -60,9 +64,11 @@ export class Attribute {
   locale: Locale;
 
   constructor(config: Partial<AttributeConfig>, theme: Theme, locale: Locale) {
-    // Assign config
-    const { dates } = Object.assign(this, { order: 0, pinPage: false }, config);
-    this.popover &&= cleanPopoverOptions(this.popover);
+    const { dates } = Object.assign(
+      this,
+      { hashcode: '', order: 0, pinPage: false },
+      config,
+    );
     this.key ||= ++attrKey;
     this.locale = locale;
     // Normalize attribute

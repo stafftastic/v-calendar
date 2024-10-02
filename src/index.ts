@@ -1,11 +1,10 @@
 import type { App } from 'vue';
 import * as components from './components/index';
 import './styles/index.css';
-import 'v-popover/style.css';
 import { setVueInstance } from './utils/config/index';
 import { type Defaults, setupDefaults } from './utils/defaults';
 
-const install = (app: App, defaults: Partial<Defaults> = {}) => {
+const install = (app: App, defaults: Defaults = {}) => {
   setVueInstance(app);
   app.use(setupDefaults, defaults);
   const prefix = app.config.globalProperties.$VCalendar.componentPrefix;
@@ -18,6 +17,7 @@ const install = (app: App, defaults: Partial<Defaults> = {}) => {
 export default { install };
 export * from './components';
 export { setupDefaults as setupCalendar } from './utils/defaults';
+export { popoverDirective } from './utils/popovers';
+
 export { createCalendar, useCalendar } from './use/calendar';
 export { createDatePicker, useDatePicker } from './use/datePicker';
-export * as Popover from 'v-popover';

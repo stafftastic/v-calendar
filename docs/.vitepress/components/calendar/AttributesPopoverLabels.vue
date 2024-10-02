@@ -1,9 +1,9 @@
 <template>
   <Example centered>
-    <div class="text-lg font-semibold mb-2 mt-0" v-if="action === 'focus'">
+    <div class="text-lg font-semibold mb-2 mt-0" v-if="visibility === 'focus'">
       Focus
     </div>
-    <div class="text-lg font-semibold mb-2 mt-0" v-if="action === 'click'">
+    <div class="text-lg font-semibold mb-2 mt-0" v-if="visibility === 'click'">
       Click
     </div>
     <VCalendar :attributes="attributes" />
@@ -14,7 +14,7 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps({
-  action: { type: String, default: 'hover' },
+  visibility: { type: String, default: 'hover' },
   hideIndicators: Boolean,
 });
 
@@ -22,7 +22,7 @@ const todos = ref([
   {
     description: 'Take Noah to basketball practice.',
     isComplete: false,
-    dates: { repeat: { weekdays: 6 } }, // Every Friday
+    dates: { repeat: { weekdays: 5 } }, // Every Friday
     color: 'red',
   },
 ]);
@@ -37,7 +37,7 @@ const attributes = computed(() => [
     },
     popover: {
       label: todo.description,
-      action: props.action,
+      visibility: props.visibility,
       hideIndicator: props.hideIndicators,
     },
   })),

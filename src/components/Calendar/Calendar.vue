@@ -101,4 +101,16 @@ export default defineComponent({
   width: 100%;
   pointer-events: none;
 }
+
+.vc-day-popover-container {
+  font-size: var(--vc-text-xs);
+  font-weight: var(--vc-font-medium);
+}
+
+.vc-day-popover-header {
+  font-size: var(--vc-text-xs);
+  color: var(--vc-day-popover-header-color);
+  font-weight: var(--vc-font-semibold);
+  text-align: center;
+}
 </style>

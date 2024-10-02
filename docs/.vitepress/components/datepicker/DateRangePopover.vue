@@ -25,9 +25,8 @@ const range = ref({
 const dragValue = ref(null);
 const selectDragAttribute = computed(() => ({
   popover: {
-    action: 'hover',
-    interactive: false,
-    theme: 'dark',
+    visibility: 'hover',
+    isInteractive: false,
   },
 }));
 </script>

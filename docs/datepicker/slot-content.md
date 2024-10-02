@@ -14,7 +14,7 @@ When a default slot is used with `VDatePicker`, that content will display instea
     <template #default="{ togglePopover }">
       <button
         class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md"
-        @click="togglePopover({ target: $event.currentTarget })"
+        @click="togglePopover"
       >
         Select date
       </button>
@@ -214,7 +214,7 @@ Please reference the [masks section](../i18n/masks#mask-tokens) for a complete l
 ## Popover
 
 
-The `popover` prop determines how event handlers are generated in the `inputEvents` slot prop.
+The `popover` prop determines how popover events are generated in the `inputEvents` slot prop.
 
 ```ts
 type PopoverProp = boolean | Partial<PopoverOptions>;
@@ -232,11 +232,12 @@ type PopoverVisibility = 'click' | 'hover' | 'hover-focus' | 'focus';
 
 ### Default behavior
 
-The `popover` prop is `true` by default, which means that the following default settings will get applied.
+The `popover` prop is `true` by default, which means that the events will use the following default settings.
 
 ```json
 {
-  action: 'hover-focus',
+  visibility: 'hover-focus',
+  autoHide: true,
   placement: 'bottom-start',
   showDelay: 0,
   hideDelay: 110,
@@ -288,7 +289,7 @@ import { ref } from 'vue';
 
 const date = ref(new Date());
 const popover = ref({
-  action: 'click',
+  visibility: 'click',
   placement: 'right',
 });
 </script>
@@ -314,7 +315,7 @@ You may choose to not bind popover behavior to the `inputEvents`, or you may not
       >
         <button
           class="flex justify-center items-center px-2 bg-accent-100 hover:bg-accent-200 text-accent-700 border-r border-gray-300 dark:bg-gray-700 dark:text-accent-300 dark:border-gray-600 dark:hover:bg-gray-600"
-          @click="togglePopover({ target: $event.currentTarget })"
+          @click="() => togglePopover()"
         >
           <IconCalendar class="w-5 h-5" />
         </button>

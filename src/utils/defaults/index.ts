@@ -1,53 +1,42 @@
-import { type App, computed, shallowReactive } from 'vue';
+import { type App, computed, reactive } from 'vue';
 import type { DarkModeConfig } from 'vue-screen-utils';
-import {
-  defaultsDeep,
-  cleanPopoverOptions,
-  get,
-  has,
-  mapValues,
-} from '../helpers';
-import { PopoverOptions, PopoverAction } from 'v-popover';
+import { defaultsDeep, get, has, mapValues } from '../helpers';
 import locales from './locales';
 import masks from './masks.json';
 import touch from './touch.json';
 
 declare const window: any;
 
-export type DatePickerPopoverOptions = PopoverOptions & {
-  visibility: PopoverAction;
-  isInteractive: boolean;
-};
+interface DatePickerPopoverDefaults {
+  visibility?: string;
+  placement?: string;
+  isInteractive?: boolean;
+}
+
+interface DatePickerDefaults {
+  updateOnInput?: boolean;
+  inputDebounce?: number;
+  popover?: DatePickerPopoverDefaults;
+}
 
 export interface Defaults {
-  componentPrefix: string;
-  color: string;
-  isDark: DarkModeConfig;
-  navVisibility?: PopoverAction;
-  navPopover: Partial<PopoverOptions>;
-  titlePosition: string;
-  transition: string;
-  touch: object;
-  masks: object;
-  locales: any;
-  datePicker: {
-    updateOnInput: boolean;
-    inputDebounce: number;
-    popover: Partial<DatePickerPopoverOptions>;
-  };
+  componentPrefix?: string;
+  color?: string;
+  isDark?: DarkModeConfig;
+  navVisibility?: string;
+  titlePosition?: string;
+  transition?: string;
+  touch?: object;
+  masks?: object;
+  locales?: any;
+  datePicker?: DatePickerDefaults;
 }
 
 const defaultConfig: Defaults = {
   componentPrefix: 'V',
   color: 'blue',
   isDark: false,
-  navPopover: {
-    action: 'click',
-    flip: false,
-    arrowHidden: false,
-    transitions: ['fade', 'slide', 'scale'],
-    offset: 8,
-  },
+  navVisibility: 'click',
   titlePosition: 'center',
   transition: 'slide-h',
   touch,
@@ -57,14 +46,14 @@ const defaultConfig: Defaults = {
     updateOnInput: true,
     inputDebounce: 1000,
     popover: {
-      action: 'hover-focus',
+      visibility: 'hover-focus',
       placement: 'bottom-start',
-      interactive: true,
+      isInteractive: true,
     },
   },
 };
 
-const state = shallowReactive<Defaults>(defaultConfig);
+const state = reactive(defaultConfig);
 
 const defaultLocales = computed(() => {
   return mapValues(state.locales, (l: any) => {
@@ -82,21 +71,7 @@ export const getDefault = (path: string) => {
   return get(state, path);
 };
 
-export const setupDefaults = (app: App, userDefaults?: Partial<Defaults>) => {
+export const setupDefaults = (app: App, userDefaults: Defaults | undefined) => {
   app.config.globalProperties.$VCalendar = state;
-  if (userDefaults) {
-    if (userDefaults.navVisibility) {
-      state.navPopover.action = userDefaults.navVisibility;
-      delete userDefaults.navVisibility;
-      console.warn(
-        'The `navVisibility` option is deprecated. Use `navPopover` instead.',
-      );
-    }
-    if (userDefaults.datePicker?.popover) {
-      state.datePicker.popover = cleanPopoverOptions(
-        userDefaults.datePicker.popover,
-      );
-    }
-  }
   return Object.assign(state, defaultsDeep(userDefaults, state));
 };
